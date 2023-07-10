@@ -1,7 +1,7 @@
 package ru.practicum.ewm.controller;
 
-import dto.HitDto;
-import dto.StatsDto;
+import dto.EndpointHitDto;
+import dto.ViewStatsDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,14 +24,14 @@ public class EwmStatsServiceController {
 
     @PostMapping("/hit")
     @Transactional
-    public HitDto createEndpointHit(@RequestBody @Valid HitDto hitDto) {
-        log.info("EwmStatsServiceController - POST: /hit endpointHitDto={}", hitDto);
-        return service.createEndpointHit(hitDto);
+    public EndpointHitDto createEndpointHit(@RequestBody @Valid EndpointHitDto endpointHitDto) {
+        log.info("EwmStatsServiceController - POST: /hit endpointHitDto={}", endpointHitDto);
+        return service.createEndpointHit(endpointHitDto);
     }
 
     @GetMapping("/stats")
     @Transactional
-    public List<StatsDto> getViewStats(
+    public List<ViewStatsDto> getViewStats(
             @RequestParam String start,
             @RequestParam String end,
             @RequestParam(required = false) List<String> uris,

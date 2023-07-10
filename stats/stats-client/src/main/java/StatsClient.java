@@ -1,5 +1,5 @@
-import dto.HitDto;
-import dto.StatsDto;
+import dto.EndpointHitDto;
+import dto.ViewStatsDto;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -14,17 +14,17 @@ public class StatsClient {
         this.client = WebClient.create(serverUrl);
     }
 
-    public void hitRequest(HitDto HitDto) {
+    public void hitRequest(EndpointHitDto endpointHitDto) {
         client.post()
                 .uri("/hit")
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .bodyValue(HitDto)
+                .bodyValue(endpointHitDto)
                 .retrieve()
                 .toBodilessEntity()
                 .block();
     }
 
-    public List<StatsDto> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique) {
+    public List<ViewStatsDto> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique) {
         return client.get()
                 .uri(uriBuilder -> uriBuilder.path("/stats")
                         .queryParam("start", start)
@@ -33,7 +33,7 @@ public class StatsClient {
                         .queryParam("unique", unique)
                         .build())
                 .retrieve()
-                .bodyToFlux(StatsDto.class)
+                .bodyToFlux(ViewStatsDto.class)
                 .collectList()
                 .block();
     }
