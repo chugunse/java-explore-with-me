@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 @Builder
 @AllArgsConstructor
-public class ViewStatsDto {
+public class StatsDto {
 
     private String app;
 
