@@ -5,6 +5,7 @@ import dto.ViewStatsDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.ewm.model.EndpointHit;
 import ru.practicum.ewm.model.EndpointHitMapper;
 import ru.practicum.ewm.model.ViewStatMapper;
@@ -21,6 +22,7 @@ public class EwmStatsServiceServiceImpl implements EndpointHitService {
     private final EndpointHitRepository endpointHitRepository;
 
     @Override
+    @Transactional
     public EndpointHitDto createEndpointHit(EndpointHitDto endpointHitDto) {
         log.debug("EwmStatsServiceService - method call 'createEndpointHit' with params: endpointHitDto={}",
                 endpointHitDto);
@@ -32,6 +34,7 @@ public class EwmStatsServiceServiceImpl implements EndpointHitService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ViewStatsDto> getViewStats(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique) {
         log.debug("EwmStatsServiceService - method call 'getViewStats' with params: start={}, end={}, uris={}, " +
                 "unique={}", start, end, uris, unique);
