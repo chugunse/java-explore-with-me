@@ -29,7 +29,7 @@ public class FindObjectInRepository {
     }
 
     public void checkUserById(Long id) {
-        if (!compilationRepository.existsById(id)) {
+        if (!userRepository.existsById(id)) {
             throw new ResourceNotFoundException("Пользователь c id = " + id + " не найден");
         }
     }
