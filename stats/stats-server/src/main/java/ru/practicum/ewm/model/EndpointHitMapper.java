@@ -4,8 +4,6 @@ import dto.EndpointHitDto;
 
 public class EndpointHitMapper {
     public static EndpointHitDto toDto(EndpointHit endpointHit) {
-
-
         return EndpointHitDto.builder()
                 .app(endpointHit.getApp())
                 .ip(endpointHit.getIp())

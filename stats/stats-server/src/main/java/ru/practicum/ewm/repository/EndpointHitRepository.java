@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 public interface EndpointHitRepository extends JpaRepository<EndpointHit, Long> {
 
-    @Query("SELECT new ru.practicum.ewm.model.ViewStat(h.app, h.uri, COUNT(h.ip)) " +
+    @Query("SELECT new ru.practicum.ewm.model.ViewStat(h.uri, h.app, COUNT(h.ip)) " +
             "FROM EndpointHit AS h " +
             "WHERE (h.timestamp >= :start) " +
             "AND (h.timestamp <= :end) " +
@@ -25,7 +25,7 @@ public interface EndpointHitRepository extends JpaRepository<EndpointHit, Long> 
             @Param("start") LocalDateTime start,
             @Param("end") LocalDateTime end);
 
-    @Query("SELECT new ru.practicum.ewm.model.ViewStat(h.app, h.uri, COUNT(DISTINCT h.ip)) " +
+    @Query("SELECT new ru.practicum.ewm.model.ViewStat(h.uri, h.app, COUNT(DISTINCT h.ip)) " +
             "FROM EndpointHit AS h " +
             "WHERE (h.timestamp >= :start) " +
             "AND (h.timestamp <= :end) " +

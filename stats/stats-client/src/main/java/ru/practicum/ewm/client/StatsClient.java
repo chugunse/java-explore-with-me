@@ -1,10 +1,11 @@
+package ru.practicum.ewm.client;
+
 import dto.EndpointHitDto;
 import dto.ViewStatsDto;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 public class StatsClient {
@@ -24,7 +25,7 @@ public class StatsClient {
                 .block();
     }
 
-    public List<ViewStatsDto> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique) {
+    public List<ViewStatsDto> getStats(String start, String end, List<String> uris, Boolean unique) {
         return client.get()
                 .uri(uriBuilder -> uriBuilder.path("/stats")
                         .queryParam("start", start)
