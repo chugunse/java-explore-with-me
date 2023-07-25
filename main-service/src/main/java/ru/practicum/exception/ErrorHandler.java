@@ -19,7 +19,6 @@ public class ErrorHandler {
     @ResponseStatus(code = HttpStatus.NOT_FOUND)
     public ApiError handleResourceNotFoundException(final ResourceNotFoundException e) {
         ApiError apiError = ApiError.builder()
-//                .errors(Arrays.stream(e.getStackTrace()).map(StackTraceElement::toString).collect(Collectors.toList()))
                 .message(e.getMessage())
                 .reason("The required object was not found")
                 .status("NOT_FOUND")
@@ -33,7 +32,6 @@ public class ErrorHandler {
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     public ApiError handlerValidate(final MethodArgumentNotValidException e) {
         ApiError apiError = ApiError.builder()
-//                .errors(Arrays.stream(e.getStackTrace()).map(StackTraceElement::toString).collect(Collectors.toList()))
                 .message(e.getMessage())
                 .reason("Bad request")
                 .status("Conflict")
@@ -47,7 +45,6 @@ public class ErrorHandler {
     @ResponseStatus(code = HttpStatus.FORBIDDEN)
     public ApiError handlerForbidden(final ForbiddenException e) {
         ApiError apiError = ApiError.builder()
-//                .errors(Arrays.stream(e.getStackTrace()).map(StackTraceElement::toString).collect(Collectors.toList()))
                 .message(e.getMessage())
                 .reason("доступ запрещен")
                 .status("Forbidden")
@@ -61,7 +58,6 @@ public class ErrorHandler {
     @ResponseStatus(code = HttpStatus.CONFLICT)
     public ApiError handleViolationException(final DataIntegrityViolationException e) {
         ApiError apiError = ApiError.builder()
-//                .errors(Arrays.stream(e.getStackTrace()).map(StackTraceElement::toString).collect(Collectors.toList()))
                 .message(e.getMessage())
                 .reason("доступ запрещен")
                 .status("Forbidden")
@@ -75,7 +71,6 @@ public class ErrorHandler {
     @ResponseStatus(code = HttpStatus.CONFLICT)
     public ApiError handleConflictException(final ConflictException e) {
         ApiError apiError = ApiError.builder()
-//                .errors(Arrays.stream(e.getStackTrace()).map(StackTraceElement::toString).collect(Collectors.toList()))
                 .message(e.getMessage())
                 .reason("Conflict")
                 .status("Conflict")
@@ -89,7 +84,6 @@ public class ErrorHandler {
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     public ApiError handleBadRequestException(final BadRequestException e) {
         ApiError apiError = ApiError.builder()
-//                .errors(Arrays.stream(e.getStackTrace()).map(StackTraceElement::toString).collect(Collectors.toList()))
                 .message(e.getMessage())
                 .reason("BadRequestException")
                 .status("BadRequestException")

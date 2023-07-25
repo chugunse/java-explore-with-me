@@ -12,10 +12,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ApiError {
-    private List<String> errors; //Список стектрейсов или описания ошибок
-    private String message; //Сообщение об ошибке
-    private String reason; // Общее описание причины ошибки
-    private String status; // example: FORBIDDEN Код статуса HTTP-ответа
+    private String message;
+    private String reason;
+    private String status;
     @DateTimeFormat(pattern = Constants.DATE_TIME_PATTERN)
-    private String timestamp; // Дата и время когда произошла ошибка (в формате "yyyy-MM-dd HH:mm:ss")
+    private String timestamp;
 }

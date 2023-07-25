@@ -7,7 +7,7 @@ import java.util.List;
 
 @Value
 @Builder
-public class EventRequestStatusUpdateRequest { // Изменение статуса запроса на участие в событии текущего пользователя
-    List<Long> requestIds; // Идентификаторы запросов на участие в событии текущего пользователя
+public class EventRequestStatusUpdateRequest {
+    List<Long> requestIds;
     RequestStatusDto status;
 }

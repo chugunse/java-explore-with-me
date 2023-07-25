@@ -13,22 +13,22 @@ import javax.validation.constraints.*;
 public class NewEventDto {
     @NotBlank
     @Size(min = 20, max = 2000)
-    private String annotation;
+    String annotation;
     @NotNull
-    private Long category;
+    Long category;
     @NotBlank
     @Size(min = 20, max = 7000)
-    private String description;
+    String description;
     @Pattern(regexp = "\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}", message = "неверный формат даты")
     @CastomDataTime(message = "время на которые намечено событие не может быть раньше," +
             " чем через два часа от текущего момента", delay = 2)
-    private String eventDate;
-    private LocationDto location;
-    private Boolean paid;
+    String eventDate;
+    LocationDto location;
+    Boolean paid;
     @PositiveOrZero
-    private Integer participantLimit;
-    private Boolean requestModeration;
+    Integer participantLimit;
+    Boolean requestModeration;
     @NotBlank
     @Size(min = 3, max = 120)
-    private String title;
+    String title;
 }

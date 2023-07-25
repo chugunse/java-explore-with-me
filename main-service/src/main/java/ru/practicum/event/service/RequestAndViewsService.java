@@ -4,14 +4,13 @@ import dto.ViewStatsDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.practicum.event.model.Event;
+import ru.practicum.ewm.client.StatsClient;
 import ru.practicum.request.model.Request;
 import ru.practicum.request.model.RequestStatus;
 import ru.practicum.request.storage.RequestRepository;
-import ru.practicum.ewm.client.StatsClient;
 import util.Constants;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -52,14 +51,10 @@ public class RequestAndViewsService {
         String end = LocalDateTime.now().format(Constants.formatter);
         String eventsUri = "/events/";
         List<String> uris = idEvents.stream().map(id -> eventsUri + id).collect(Collectors.toList());
-        List<ViewStatsDto> viewStatDto = client.getStats(start, end, uris, true);
-        Map<Long, Long> hits = new HashMap<>();
-        for (ViewStatsDto statsDto : viewStatDto) {
-            String uri = statsDto.getUri();
-            hits.put(Long.parseLong(uri.substring(eventsUri.length())), statsDto.getHits());
-        }
-        for (Event event : events) {
-            event.setViews(hits.get(event.getId()));
-        }
+        List<ViewStatsDto> viewStatDtos = client.getStats(start, end, uris, true);
+        Map<Long, Long> hits = viewStatDtos.stream()
+                .collect(Collectors.
+                        toMap(v -> Long.parseLong(v.getUri().substring(eventsUri.length())),ViewStatsDto::getHits));
+        events.forEach(e -> e.setViews(hits.get(e.getId())));
     }
 }

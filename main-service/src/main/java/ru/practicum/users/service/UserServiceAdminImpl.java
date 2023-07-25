@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserServiceAdminImpl implements UserServiceAdmin {
     private final UserRepository userRepository;
-//    private final FindObjectInRepository findObjectInRepository;
 
     @Override
     public List<UserDto> getUsersByIds(List<Long> ids, int from, int size) {

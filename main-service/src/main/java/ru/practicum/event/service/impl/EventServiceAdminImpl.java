@@ -7,14 +7,13 @@ import org.springframework.stereotype.Service;
 import ru.practicum.event.dto.EventFullDto;
 import ru.practicum.event.dto.UpdateEventAdminRequest;
 import ru.practicum.event.dto.stateDto.ActionStateDto;
+import ru.practicum.event.mapper.EventMapper;
 import ru.practicum.event.mapper.LocationMapper;
 import ru.practicum.event.model.Event;
 import ru.practicum.event.model.EventState;
 import ru.practicum.event.service.EventServiceAdmin;
 import ru.practicum.event.service.RequestAndViewsService;
 import ru.practicum.event.storage.EventRepository;
-import ru.practicum.event.mapper.EventMapper;
-import ru.practicum.exception.model.BadRequestException;
 import ru.practicum.exception.model.ConflictException;
 import ru.practicum.util.DateFormatter;
 import ru.practicum.util.FindObjectInRepository;
@@ -52,10 +51,11 @@ public class EventServiceAdminImpl implements EventServiceAdmin {
 
         if (updateEvent.getStateAction() != null) {
             checkEventStatusAvailability(event, updateEvent);
-            if (!event.getState().equals(EventState.PUBLISHED) && updateEvent.getStateAction().equals(ActionStateDto.PUBLISH_EVENT)) {
+            if (!event.getState().equals(EventState.PUBLISHED)
+                    && updateEvent.getStateAction().equals(ActionStateDto.PUBLISH_EVENT)) {
                 event.setPublishedOn(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
             }
-            event.setState(determiningTheStatusForEvent(updateEvent.getStateAction()));
+            event.setState(updateEvent.getStateAction().getEventState());
         }
         ofNullable(updateEvent.getTitle()).ifPresent(event::setTitle);
         requestAndViewsService.confirmedRequestsForOneEvent(event);
@@ -91,21 +91,6 @@ public class EventServiceAdminImpl implements EventServiceAdmin {
         if (updateEvent.getStateAction().equals(ActionStateDto.REJECT_EVENT)
                 && event.getState().equals(EventState.PUBLISHED)) {
             throw new ConflictException("Нельзя отклонить запрос на публикацию уже опубликованного события");
-        }
-    }
-
-    private EventState determiningTheStatusForEvent(ActionStateDto stateAction) {
-        switch (stateAction) {
-            case SEND_TO_REVIEW:
-                return EventState.PENDING;
-            case CANCEL_REVIEW:
-                return EventState.CANCELED;
-            case PUBLISH_EVENT:
-                return EventState.PUBLISHED;
-            case REJECT_EVENT:
-                return EventState.CANCELED;
-            default:
-                throw new BadRequestException("Статус не соответствует модификатору доступа");
         }
     }
 }
