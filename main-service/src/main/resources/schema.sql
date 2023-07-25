@@ -67,3 +67,4 @@ CREATE INDEX categories_name_field ON categories (name);
 CREATE INDEX events_state_field ON events (state);
 CREATE INDEX events_event_date_field ON events (event_date);
 CREATE INDEX events_paid_field ON events (paid);
+CREATE INDEX users_email_idx ON users(email);
