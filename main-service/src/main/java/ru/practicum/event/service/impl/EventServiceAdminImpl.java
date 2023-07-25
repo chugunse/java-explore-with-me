@@ -35,29 +35,28 @@ public class EventServiceAdminImpl implements EventServiceAdmin {
 
     @Override
 
-    public EventFullDto updateEventById(Long eventId, UpdateEventAdminRequest updateEvent, HttpServletRequest request) {
+    public EventFullDto updateEventById(Long eventId, UpdateEventAdminRequest updEvent, HttpServletRequest request) {
         Event event = findObjectInRepository.getEventById(eventId);
-        ofNullable(updateEvent.getAnnotation()).ifPresent(event::setAnnotation);
-        ofNullable(updateEvent.getCategory())
+        ofNullable(updEvent.getAnnotation()).ifPresent(event::setAnnotation);
+        ofNullable(updEvent.getCategory())
                 .ifPresent(category -> event.setCategory(findObjectInRepository.getCategoryById(category)));
-        ofNullable(updateEvent.getDescription()).ifPresent(event::setDescription);
-        ofNullable(updateEvent.getEventDate())
+        ofNullable(updEvent.getDescription()).ifPresent(event::setDescription);
+        ofNullable(updEvent.getEventDate())
                 .ifPresent(date -> event.setEventDate(DateFormatter.creatDataFromString(date)));
-        ofNullable(updateEvent.getLocation())
+        ofNullable(updEvent.getLocation())
                 .ifPresent(location -> event.setLocation(LocationMapper.locationDtoToLocation(location)));
-        ofNullable(updateEvent.getPaid()).ifPresent(event::setPaid);
-        ofNullable(updateEvent.getParticipantLimit()).ifPresent(event::setParticipantLimit);
-        ofNullable(updateEvent.getRequestModeration()).ifPresent(event::setRequestModeration);
-
-        if (updateEvent.getStateAction() != null) {
-            checkEventStatusAvailability(event, updateEvent);
+        ofNullable(updEvent.getPaid()).ifPresent(event::setPaid);
+        ofNullable(updEvent.getParticipantLimit()).ifPresent(event::setParticipantLimit);
+        ofNullable(updEvent.getRequestModeration()).ifPresent(event::setRequestModeration);
+        ofNullable(updEvent.getTitle()).ifPresent(event::setTitle);
+        if (updEvent.getStateAction() != null) {
+            checkEventStatusAvailability(event, updEvent);
             if (!event.getState().equals(EventState.PUBLISHED)
-                    && updateEvent.getStateAction().equals(ActionStateDto.PUBLISH_EVENT)) {
+                    && updEvent.getStateAction().equals(ActionStateDto.PUBLISH_EVENT)) {
                 event.setPublishedOn(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
             }
-            event.setState(updateEvent.getStateAction().getEventState());
+            event.setState(updEvent.getStateAction().getEventState());
         }
-        ofNullable(updateEvent.getTitle()).ifPresent(event::setTitle);
         requestAndViewsService.confirmedRequestsForOneEvent(event);
         return EventMapper.eventToEventFullDto(eventRepository.save(event));
     }

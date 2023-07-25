@@ -15,7 +15,6 @@ import ru.practicum.event.model.EventState;
 import ru.practicum.event.service.EventServicePrivate;
 import ru.practicum.event.service.RequestAndViewsService;
 import ru.practicum.event.storage.EventRepository;
-import ru.practicum.exception.model.BadRequestException;
 import ru.practicum.exception.model.ConflictException;
 import ru.practicum.exception.model.ForbiddenException;
 import ru.practicum.exception.model.ResourceNotFoundException;
@@ -77,39 +76,29 @@ public class EventServicePrivateImpl implements EventServicePrivate {
 
     @Override
     public EventFullDto updateEventByIdAndByUserId(Long userId, Long eventId,
-                                                   UpdateEventUserRequest updateEventUserRequest) {
+                                                   UpdateEventUserRequest updEvent) {
         Event event = findObjectInRepository.getEventById(eventId);
         User user = findObjectInRepository.getUserById(userId);
         checkOwnerEvent(event, user);
         if (event.getState().equals(EventState.PUBLISHED)) {
             throw new ConflictException("Статус события <" + event.getState() + "> не позволяет редоктировать");
         }
-        if (updateEventUserRequest.getStateAction() != null) {
-            switch (updateEventUserRequest.getStateAction()) {
-                case SEND_TO_REVIEW:
-                    event.setState(EventState.PENDING);
-                    break;
-                case CANCEL_REVIEW:
-                    event.setState(EventState.CANCELED);
-                    break;
-                default:
-                    throw new BadRequestException("Статус не соответствует модификатору доступа");
-            }
-        }
-        ofNullable(updateEventUserRequest.getAnnotation()).ifPresent(event::setAnnotation);
-        if (updateEventUserRequest.getCategory() != null) {
-            Category category = findObjectInRepository.getCategoryById(updateEventUserRequest.getCategory());
-            event.setCategory(category);
-        }
-        ofNullable(updateEventUserRequest.getDescription()).ifPresent(event::setDescription);
-        ofNullable(updateEventUserRequest.getEventDate())
+        ofNullable(updEvent.getAnnotation()).ifPresent(event::setAnnotation);
+        ofNullable(updEvent.getCategory())
+                .ifPresent(category -> event.setCategory(findObjectInRepository.getCategoryById(category)));
+        ofNullable(updEvent.getDescription()).ifPresent(event::setDescription);
+        ofNullable(updEvent.getEventDate())
                 .ifPresent(date -> event.setEventDate(DateFormatter.creatDataFromString(date)));
-        ofNullable(updateEventUserRequest.getLocation())
+        ofNullable(updEvent.getLocation())
                 .ifPresent(location -> event.setLocation(LocationMapper.locationDtoToLocation(location)));
-        ofNullable(updateEventUserRequest.getPaid()).ifPresent(event::setPaid);
-        ofNullable(updateEventUserRequest.getParticipantLimit()).ifPresent(event::setParticipantLimit);
-        ofNullable(updateEventUserRequest.getRequestModeration()).ifPresent(event::setRequestModeration);
-        ofNullable(updateEventUserRequest.getTitle()).ifPresent(event::setTitle);
+        ofNullable(updEvent.getPaid()).ifPresent(event::setPaid);
+        ofNullable(updEvent.getParticipantLimit()).ifPresent(event::setParticipantLimit);
+        ofNullable(updEvent.getRequestModeration()).ifPresent(event::setRequestModeration);
+        ofNullable(updEvent.getTitle()).ifPresent(event::setTitle);
+
+
+        ofNullable(updEvent.getStateAction())
+                .ifPresent(actionStateDto -> event.setState(actionStateDto.getEventState()));
         event.setViews(0L);
         event.setConfirmedRequests(0L);
         return EventMapper.eventToEventFullDto(eventRepository.save(event));
