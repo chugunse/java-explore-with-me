@@ -4,8 +4,6 @@ import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import util.Constants;
 
-import java.util.List;
-
 @Getter
 @Setter
 @Builder

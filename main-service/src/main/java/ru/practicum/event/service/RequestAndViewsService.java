@@ -53,8 +53,8 @@ public class RequestAndViewsService {
         List<String> uris = idEvents.stream().map(id -> eventsUri + id).collect(Collectors.toList());
         List<ViewStatsDto> viewStatDtos = client.getStats(start, end, uris, true);
         Map<Long, Long> hits = viewStatDtos.stream()
-                .collect(Collectors.
-                        toMap(v -> Long.parseLong(v.getUri().substring(eventsUri.length())),ViewStatsDto::getHits));
+                .collect(Collectors
+                        .toMap(v -> Long.parseLong(v.getUri().substring(eventsUri.length())), ViewStatsDto::getHits));
         events.forEach(e -> e.setViews(hits.get(e.getId())));
     }
 }
