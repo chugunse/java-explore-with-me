@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.practicum.ewm.exception.ValidationDateException;
 import ru.practicum.ewm.model.EndpointHit;
 import ru.practicum.ewm.model.EndpointHitMapper;
 import ru.practicum.ewm.model.ViewStatMapper;
@@ -38,6 +39,9 @@ public class EwmStatsServiceServiceImpl implements EndpointHitService {
     public List<ViewStatsDto> getViewStats(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique) {
         log.debug("EwmStatsServiceService - method call 'getViewStats' with params: start={}, end={}, uris={}, " +
                 "unique={}", start, end, uris, unique);
+        if (end.isBefore(start) || start.isAfter(end)) {
+            throw new ValidationDateException("дата начала поиска не может быть позже конца");
+        }
         if (unique) {
             return ViewStatMapper.toDto(endpointHitRepository.findViewStatsUniqueIp(uris, start, end));
         } else {
