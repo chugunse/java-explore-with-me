@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.practicum.category.model.Category;
 import ru.practicum.category.storage.CategoryRepository;
+import ru.practicum.comment.model.Comment;
+import ru.practicum.comment.storage.CommentRepository;
 import ru.practicum.compilation.model.Compilation;
 import ru.practicum.compilation.storage.CompilationRepository;
 import ru.practicum.event.model.Event;
@@ -22,6 +24,7 @@ public class FindObjectInRepository {
     private final EventRepository eventRepository;
 
     private final CompilationRepository compilationRepository;
+    private final CommentRepository commentRepository;
 
     public User getUserById(Long id) {
         return userRepository.findById(id).orElseThrow(()
@@ -41,7 +44,13 @@ public class FindObjectInRepository {
 
     public Event getEventById(Long eventId) {
         return eventRepository.findById(eventId).orElseThrow(()
-                -> new ResourceNotFoundException(("Event с id = " + eventId + " не найден")));
+                -> new ResourceNotFoundException("Event с id = " + eventId + " не найден"));
+    }
+
+    public void checkEventById(Long eventId) {
+        if (!eventRepository.existsById(eventId)) {
+            throw new ResourceNotFoundException("Event с id = " + eventId + " не найден");
+        }
     }
 
     public void checkCompilation(Long compId) {
@@ -57,5 +66,10 @@ public class FindObjectInRepository {
 
     public List<Event> getAllEventByCategoryId(Long catId) {
         return eventRepository.findAllByCategoryId(catId);
+    }
+
+    public Comment getCommentById(Long commentId) {
+        return commentRepository.findById(commentId).orElseThrow(()
+                -> new ResourceNotFoundException("комментарий с id = " + " не найден"));
     }
 }

@@ -2,6 +2,7 @@ package ru.practicum.exception;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -61,6 +62,19 @@ public class ErrorHandler {
                 .message(e.getMessage())
                 .reason("доступ запрещен")
                 .status("Forbidden")
+                .timestamp((LocalDateTime.now().format(Constants.formatter)))
+                .build();
+        log.warn(e.getMessage());
+        return apiError;
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(code = HttpStatus.NOT_FOUND)
+    public ApiError handleEmptyResultData(final EmptyResultDataAccessException e) {
+        ApiError apiError = ApiError.builder()
+                .message(e.getMessage())
+                .reason("The required object was not found")
+                .status("NOT_FOUND")
                 .timestamp((LocalDateTime.now().format(Constants.formatter)))
                 .build();
         log.warn(e.getMessage());

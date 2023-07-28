@@ -1,14 +1,12 @@
 package ru.practicum.event.dto;
 
 import lombok.Builder;
-import lombok.Getter;
 import lombok.Value;
 import ru.practicum.util.validator.CastomDataTime;
 
 import javax.validation.constraints.*;
 
 @Value
-@Getter
 @Builder
 public class NewEventDto {
     @NotBlank
