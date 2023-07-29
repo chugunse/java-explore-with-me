@@ -25,15 +25,15 @@ java-explore-with-me
 
 ### Comments
 Admin
-- '[PATCH] /admin/comments/{commentId}' - обновление комментария
-'[DELETE] /admin/comments/{commentId}' удаление комментария
+- `[PATCH] /admin/comments/{commentId}` - обновление комментария
+- `[DELETE] /admin/comments/{commentId}` - удаление комментария
 Private
-'[POST] /users/{userId}/comments?eventId={eventId}' добавление комментария
-'[PATCH] /users/{userId}/comments/{commentId}?eventId={eventId}' обновление комментария
-'[DELETE] /users/{userId}/comments/{commentId}?eventId={eventId}' удаление комментария
+- `[POST] /users/{userId}/comments?eventId={eventId}` - добавление комментария
+- `[PATCH] /users/{userId}/comments/{commentId}?eventId={eventId}` - обновление комментария
+- `[DELETE] /users/{userId}/comments/{commentId}?eventId={eventId}` - удаление комментария
 Public
-'[GET] /events/{eventId}/comments/{commentId}' получить комментарий
-'[GET] /events/{eventId}/comments/{commentId}?from={from}&size={size}' получить список комментариев к событию
+- `[GET] /events/{eventId}/comments/{commentId}` - получить комментарий
+- `[GET] /events/{eventId}/comments/{commentId}?from={from}&size={size}` - получить список комментариев к событию
 
 ## Схема базы данных основного сервиса
 ![](dbdiagram.png)
