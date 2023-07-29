@@ -25,7 +25,7 @@ java-explore-with-me
 
 ### Comments
 Admin
-'[PATCH] /admin/comments/{commentId}' обновление комментария
+- '[PATCH] /admin/comments/{commentId}' - обновление комментария
 '[DELETE] /admin/comments/{commentId}' удаление комментария
 Private
 '[POST] /users/{userId}/comments?eventId={eventId}' добавление комментария
