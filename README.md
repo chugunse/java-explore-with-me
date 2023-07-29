@@ -1,10 +1,10 @@
 java-explore-with-me
+[Ссылка на финальный PR](https://github.com/chugunse/java-explore-with-me/pull/5)
 ### Описание
 Двухмодульное приложение для размещения и поиска событий-мероприятий.
 
 Приложение состоит из основного сервиса, основной БД, сервиса статистики, БД для статистики. 
 Каждая часть поднимается в отдельном docker-контейнере.
-[Ссылка на финальный PR](https://github.com/StRaiGT/java-explore-with-me/pull/3)https://github.com/chugunse/java-explore-with-me/pull/5
 
 
 ### Стек:
