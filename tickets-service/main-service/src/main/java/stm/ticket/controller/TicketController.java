@@ -34,4 +34,5 @@ public class TicketController {
         ticketService.getAllTickets(rangeStart, rangeEnd, departurePoint, destinationPoint, carrier, from, size);
     }
 
+//    @GetMapping
 }
